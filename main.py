@@ -5,8 +5,19 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import html2markdown
 import os
+import platform
 
+# 获取桌面路径
+desktop_path = None
+if platform.system() == 'Windows':
+    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+elif platform.system() == 'Darwin':
+    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+elif platform.system() == 'Linux':
+    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+    
 driver = webdriver.Edge()
+
 def login():
     #打开目标网页
     driver.get('https://www.luogu.com.cn')
