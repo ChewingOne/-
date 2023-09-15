@@ -15,9 +15,13 @@ elif platform.system() == 'Darwin':
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
 elif platform.system() == 'Linux':
     desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    
-driver = webdriver.Edge()
 
+# 创建文件夹
+result_folder_path = os.path.join(desktop_path, "result")
+if not os.path.exists (result_folder_path):
+    os.makedirs(result_folder_path)
+
+driver = webdriver.Edge()
 def login():
     #打开目标网页
     driver.get('https://www.luogu.com.cn')
@@ -104,8 +108,9 @@ def find_problem(level,b_page, e_page ):
     return element
 
 def find_pro_ans(array):
+    global desktop_path
     for i in array:
-        folder_path = f"C:\\Users\\chewing\\Desktop\\result\\{i[0]}-{i[1]}"
+        folder_path = f"{desktop_path}\\result\\{i[0]}-{i[1]}"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
         url = 'https://www.luogu.com.cn/problem'
@@ -116,10 +121,9 @@ def find_pro_ans(array):
         result = driver.find_element(By.CSS_SELECTOR, "#app > div.main-container > main > div > section.main > section > div > div:nth-child(2)")
         # 转markdown
         markdown_output = html2markdown.convert(result.text)
-        desktop_path = folder_path
         file_name = f"{i[0]}-{i[1]}.md"
         # 构造文件路径
-        file_path = f"{desktop_path}\\{file_name}"
+        file_path = f"{folder_path}\\{file_name}"
 
         # 保存Markdown内容到文件
         with open(file_path, "w", encoding="utf-8") as file:
@@ -139,10 +143,10 @@ def find_pro_ans(array):
         result = driver.find_element(By.CSS_SELECTOR, "div.marked:first-of-type")
         # 转markdown
         markdown_output = html2markdown.convert(result.text)
-        desktop_path = folder_path = f"C:\\Users\\chewing\\Desktop\\result\\{i[0]}-{i[1]}"
+        folder_path = f"{desktop_path}\\result\\{i[0]}-{i[1]}"
         file_name = f"{i[0]}-{i[1]}-题解.md"
         # 构造文件路径
-        file_path = f"{desktop_path}\\{file_name}"
+        file_path = f"{folder_path }\\{file_name}"
 
         # 保存Markdown内容到文件
         with open(file_path, "w", encoding="utf-8") as file:
